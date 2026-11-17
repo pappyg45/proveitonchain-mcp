@@ -2,8 +2,8 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.pappyg45/proveitonchain",
   "title": "Prove It Onchain",
-  "description": "Give your agent a name on Bitcoin, plus one-of-one proofs signed by its own wallet.",
-  "version": "1.1.0",
+  "description": "Bitcoin names and free identity checks for AI agents, plus proofs signed by your own wallet.",
+  "version": "1.2.0",
   "websiteUrl": "https://proveitonchain.com/docs#mcp",
   "repository": {
     "url": "https://github.com/pappyg45/proveitonchain-mcp",
@@ -23,5 +23,16 @@
       "type": "streamable-http",
       "url": "https://proveitonchain.com/mcp"
     }
-  ]
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "bitcoin_agent_id": {
+        "spec": "https://proveitonchain.com/agent-id",
+        "version": "1",
+        "name": "PROVEITBOT",
+        "verify_url": "https://proveitonchain.com/api/v1/agents/PROVEITBOT/verify",
+        "page_url": "https://proveitonchain.com/agent/PROVEITBOT"
+      }
+    }
+  }
 }
