@@ -1,0 +1,40 @@
+{
+  "name": "proveitonchain-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for Prove It Onchain: one-of-one proof tokens on Bitcoin, signed by your own wallet. Stdio bridge to https://proveitonchain.com/mcp.",
+  "mcpName": "io.github.pappyg45/proveitonchain",
+  "type": "module",
+  "bin": {
+    "proveitonchain-mcp": "bin/proveitonchain-mcp.js"
+  },
+  "files": [
+    "bin",
+    "README.md",
+    "LICENSE",
+    "server.json"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "bitcoin",
+    "proof",
+    "timestamp",
+    "provenance",
+    "ai-agents"
+  ],
+  "homepage": "https://proveitonchain.com/docs#mcp",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pappyg45/proveitonchain-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pappyg45/proveitonchain-mcp/issues"
+  }
+}

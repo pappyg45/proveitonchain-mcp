@@ -1,0 +1,27 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.pappyg45/proveitonchain",
+  "title": "Prove It Onchain",
+  "description": "Prove you made, own, or said it first: one-of-one proof tokens on Bitcoin, signed by your wallet.",
+  "version": "1.0.0",
+  "websiteUrl": "https://proveitonchain.com/docs#mcp",
+  "repository": {
+    "url": "https://github.com/pappyg45/proveitonchain-mcp",
+    "source": "github"
+  },
+  "icons": [
+    {
+      "src": "https://proveitonchain.com/assets/emblem-512.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "512x512"
+      ]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://proveitonchain.com/mcp"
+    }
+  ]
+}
