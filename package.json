@@ -1,7 +1,7 @@
 {
   "name": "proveitonchain-mcp",
-  "version": "1.0.0",
-  "description": "MCP server for Prove It Onchain: one-of-one proof tokens on Bitcoin, signed by your own wallet. Stdio bridge to https://proveitonchain.com/mcp.",
+  "version": "1.1.0",
+  "description": "Give your agent a name on Bitcoin. MCP server for Prove It Onchain: vanity names with an agent identity, and one-of-one proofs signed by your own wallet. Stdio bridge to https://proveitonchain.com/mcp.",
   "mcpName": "io.github.pappyg45/proveitonchain",
   "type": "module",
   "bin": {
@@ -20,13 +20,15 @@
     "@modelcontextprotocol/sdk": "^1.32.2"
   },
   "keywords": [
+    "agent-identity",
+    "ai-agents",
+    "bitcoin",
     "mcp",
     "model-context-protocol",
-    "bitcoin",
     "proof",
-    "timestamp",
     "provenance",
-    "ai-agents"
+    "timestamp",
+    "vanity-name"
   ],
   "homepage": "https://proveitonchain.com/docs#mcp",
   "license": "MIT",
