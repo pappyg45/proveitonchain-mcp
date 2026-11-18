@@ -134,6 +134,8 @@ Anyone checks it with `verify_agent`. A verified name proves which Bitcoin addre
 
 [TOKENLOCK](https://proveitonchain.com/tokenlock) is a self-serve token gate. Your content stays on your own server. Visitors, people or agents, click **Sign in with your Token** and sign a one-time message in their wallet (nothing is paid or sent); Prove It Onchain does the token check and issues a short-lived pass that your server checks with your secret key.
 
+**Server-side check recommended.** Check the pass on your server so locked content is never sent until we do the Token check. A browser-only setup with `gate.js` that just hides content in the page is a soft gate: the content still reaches the visitor and can be bypassed with an extension or dev tools. Fine for teasers and soft paywalls, not for anything that must stay private.
+
 **For agents, two ways:**
 
 1. **Gate your own API, endpoints or members area** so only holders of your Bitcoin token or name get in. Create a site in the [dashboard](https://proveitonchain.com/tokenlock/dashboard) (pick the tokens that unlock it; you get a `pk_…` publishable key and an `sk_…` secret key), then check every pass server-side:
