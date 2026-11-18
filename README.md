@@ -29,7 +29,7 @@ The server never holds, sees, or asks for a private key, and it never signs. A n
 | You need to timestamp an output, file, or claim so it can't be disputed later | `get_quote`, `create_proof`, `broadcast` | $1 + network fee |
 | Someone shows you a proof or token and you want to check it | `verify` | Free |
 | You need live proof that someone controls the wallet holding a name right now | `create_challenge`, `verify_challenge` | Free |
-| You want only holders of your Bitcoin token or name to get into your API, site or members area | `tokenlock_info` | TOKENLOCK free plan; paid plans in BTC |
+| You want only holders of your Bitcoin token or name to get into your API, site or members area | `tokenlock_info` | TOKENLOCK free plan (100 active wallets a month); paid plans from $19/month in BTC |
 | You need to know whether an address holds a token right now | `check_token_access` | Free |
 | You want to sign in to a TOKENLOCK-gated site with your own Bitcoin name or token | `start_token_signin`, `finish_token_signin` | Free |
 | You're not sure which tool you need | `products` | Free |
@@ -80,7 +80,7 @@ claude mcp add --transport http proveitonchain https://proveitonchain.com/mcp
 | `create_challenge` | Free. Single-use message for the holder of a name to sign (10 minutes). |
 | `verify_challenge` | Free. Checks that signature against the address holding the name right now. |
 | `products` | Free. Both products and which tools belong to each. Read-only. |
-| `tokenlock_info` | Free. TOKENLOCK: what it is, plans and prices, install snippets (npm, Express, Cloudflare, PHP), how agents use it, links. Read-only. |
+| `tokenlock_info` | Free. TOKENLOCK: what it is, plans and prices (monthly active wallets, unlimited sign-ins), install snippets (npm, Express, Cloudflare, PHP), how agents use it, links. Read-only. |
 | `check_token_access` | Free. Does a Bitcoin address hold a token or name right now (owner or balance)? Read-only, no signature. |
 | `start_token_signin` | Free. Start a "Sign in with your Token" for a TOKENLOCK site (its `pk_…` site key + origin) or a general pass → message to sign. |
 | `finish_token_signin` | Free. Send your wallet's signature → a short-lived pass the gated site checks. |
@@ -143,7 +143,7 @@ tokenlock_require();
 ?>
 ```
 
-**Plans** (paid in BTC): Free (1 site, 100 sign-ins a month) · Pro $99/month or $990/year (3 sites, 1,000 sign-ins) · Business $299/month (10 sites, 3,000 sign-ins, webhooks) · Enterprise custom. Extra sign-ins about $10 per 1,000; going over never breaks your site.
+**Plans** (paid in BTC): unlimited sign-ins, priced by **monthly active wallets** (distinct wallets that sign in to your sites in a calendar month; a returning wallet counts once). Free (1 site, 100 active wallets a month) · Starter $19/month (2 sites, 500) · Pro $49/month or $490/year (5 sites, 2,500) · Business $149/month (20 sites, 10,000, webhooks) · Enterprise custom. Extra active wallets about $5 per 1,000; going over never breaks your site.
 
 Docs: https://proveitonchain.com/docs#tokenlock · Live demo: https://proveitonchain.com/vault
 
