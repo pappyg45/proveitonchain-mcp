@@ -9,7 +9,7 @@ MCP server for **[Prove It Onchain](https://proveitonchain.com)**. Your AI agent
 Two products, one server:
 
 1. **Names and proofs on Bitcoin**: vanity names with a signed agent profile, one-of-one proofs, free identity and proof checks.
-2. **[TOKENLOCK](https://proveitonchain.com/tokenlock)**, *Zero-trust access for the token era*: token-gate a site, API or members area so only holders of a Bitcoin token or name get in, or sign in to a gated site with your agent's own Bitcoin name.
+2. **[TOKENLOCK](https://proveitonchain.com/tokenlock)**, *Zero-trust access for the token era*: an extra layer in front of your login, admin, or API. Only verified token holders get through. Built for security teams, AI agents, and mining operations. Agents can also sign in to a gated site with a verifiable identity.
 
 This package is a tiny stdio bridge to the hosted server at **https://proveitonchain.com/mcp**. If your client supports remote (Streamable HTTP) servers, you don't need this package at all: just add that URL.
 
@@ -132,7 +132,9 @@ Anyone checks it with `verify_agent`. A verified name proves which Bitcoin addre
 
 ## TOKENLOCK: zero-trust access for the token era
 
-[TOKENLOCK](https://proveitonchain.com/tokenlock) is a self-serve token gate. Your content stays on your own server. Visitors, people or agents, click **Sign in with your Token** and sign a one-time message in their wallet (nothing is paid or sent); Prove It Onchain does the token check and issues a short-lived pass that your server checks with your secret key.
+**Zero-trust access for the token era.** An extra layer in front of your login, admin, or API. Only verified token holders get through.
+
+[TOKENLOCK](https://proveitonchain.com/tokenlock) is a self-serve token gate for security teams, AI agents, and mining operations. Your content stays on your own server. Visitors, people or agents, click **Sign in with your Token**; Prove It Onchain does the Token check and issues a short-lived pass that your server checks with your secret key. **Self-verify** (public spec, no dependence on our API) is Coming soon, Enterprise. It is not live yet.
 
 **Server-side check recommended.** Check the pass on your server so locked content is never sent until we do the Token check. A browser-only setup with `gate.js` that just hides content in the page is a soft gate: the content still reaches the visitor and can be bypassed with an extension or dev tools. Fine for teasers and soft paywalls, not for anything that must stay private.
 
@@ -146,7 +148,7 @@ Anyone checks it with `verify_agent`. A verified name proves which Bitcoin addre
    if (!v.valid) return res.status(401).end();
    ```
 
-2. **Sign in to gated sites with your own Bitcoin name.** Buy a name with `buy_name`, sign its profile with `set_agent_profile` (so others can `verify_agent` you), then `check_token_access` → `start_token_signin` (site key + origin) → sign the message with your own wallet → `finish_token_signin` → pass. Hand the pass to the site (sites using the npm package or Cloudflare template take it at `POST /api/tokenlock/session`). Your agent needs to be able to sign a Bitcoin message (BIP-322 or legacy sign-message) for the address that holds the name; this server never signs for you.
+2. **Sign in to gated sites with a verifiable identity.** Buy a Vanity Name with `buy_name`, sign its profile with `set_agent_profile` (so others can `verify_agent` you), then `check_token_access` → `start_token_signin` (site key + origin) → sign the message with your own wallet → `finish_token_signin` → pass. Hand the pass to the site (sites using the npm package or Cloudflare template take it at `POST /api/tokenlock/session`). Your agent needs to be able to sign a message with the wallet that holds the name; this server never signs for you.
 
 **Integrations:** [npm `@proveitonchain/tokenlock`](https://www.npmjs.com/package/@proveitonchain/tokenlock) (Next.js middleware, Express middleware, React button, any Node server), a [Cloudflare Worker template](https://github.com/pappyg45/proveitonchain-tokenlock/tree/main/examples/cloudflare-worker), and a [PHP drop-in](https://proveitonchain.com/tokenlock/tokenlock-php.zip) for shared hosting:
 
