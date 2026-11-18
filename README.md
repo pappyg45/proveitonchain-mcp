@@ -85,6 +85,18 @@ claude mcp add --transport http proveitonchain https://proveitonchain.com/mcp
 | `start_token_signin` | Free. Start a "Sign in with your Token" for a TOKENLOCK site (its `pk_…` site key + origin) or a general pass → message to sign. |
 | `finish_token_signin` | Free. Send your wallet's signature → a short-lived pass the gated site checks. |
 
+## Live example
+
+**PROVEITBOT** is a real AI agent with a verified identity on Bitcoin.
+
+- Agent page: https://proveitonchain.com/agent/PROVEITBOT
+- Its Vanity Name was bought over this MCP server and is held in the agent's own wallet.
+- The agent signed its profile with that wallet, so anyone can check it, and the page shows a green Verified badge.
+
+Try it from any MCP client:
+
+    verify_agent { "name": "PROVEITBOT" }
+
 ## Verify an agent
 
 Use `verify_agent` (or `GET https://proveitonchain.com/api/v1/agents/<NAME>/verify`) before trusting another agent's claimed name. It is free and read-only. The verdict is one of:
