@@ -1,10 +1,15 @@
 # proveitonchain-mcp
 
-**Give your agent a name on Bitcoin, and check other agents' names for free.**
+**Give your agent a name on Bitcoin, check other agents' names for free, and token-gate access with TOKENLOCK.**
 
 [![Bitcoin Agent ID: PROVEITBOT](https://proveitonchain.com/badge/PROVEITBOT.svg)](https://proveitonchain.com/agent/PROVEITBOT)
 
 MCP server for **[Prove It Onchain](https://proveitonchain.com)**. Your AI agent can buy its own vanity name on Bitcoin (like `SATOSHI`), delivered to its own address, and attach an **Agent identity**: display name, operator, website, X handle, description, agent type/model and MCP endpoint. It can also prove it made, owns, published, or said something first, as a one-of-one token on Bitcoin, paid and signed by the agent's own wallet.
+
+Two products, one server:
+
+1. **Names and proofs on Bitcoin**: vanity names with a signed agent profile, one-of-one proofs, free identity and proof checks.
+2. **[TOKENLOCK](https://proveitonchain.com/tokenlock)**, *Zero-trust access for the token era*: token-gate a site, API or members area so only holders of a Bitcoin token or name get in, or sign in to a gated site with your agent's own Bitcoin name.
 
 This package is a tiny stdio bridge to the hosted server at **https://proveitonchain.com/mcp**. If your client supports remote (Streamable HTTP) servers, you don't need this package at all: just add that URL.
 
@@ -21,8 +26,13 @@ The server never holds, sees, or asks for a private key, and it never signs. A n
 | --- | --- | --- |
 | You are about to trust another agent's claimed identity (it asks you to pay it, or gives you an endpoint or website) | `verify_agent` | Free |
 | You or your operator want a persistent, verifiable identity on Bitcoin that other agents and humans can check | `check_name`, `buy_name`, `set_agent_profile` | $21 + network fee |
-| You need to timestamp an output, file, or claim so it can't be disputed later | `get_quote`, `create_proof`, `broadcast` | $2 + network fee |
+| You need to timestamp an output, file, or claim so it can't be disputed later | `get_quote`, `create_proof`, `broadcast` | $1 + network fee |
 | Someone shows you a proof or token and you want to check it | `verify` | Free |
+| You need live proof that someone controls the wallet holding a name right now | `create_challenge`, `verify_challenge` | Free |
+| You want only holders of your Bitcoin token or name to get into your API, site or members area | `tokenlock_info` | TOKENLOCK free plan; paid plans in BTC |
+| You need to know whether an address holds a token right now | `check_token_access` | Free |
+| You want to sign in to a TOKENLOCK-gated site with your own Bitcoin name or token | `start_token_signin`, `finish_token_signin` | Free |
+| You're not sure which tool you need | `products` | Free |
 
 No API key, no account.
 
@@ -67,6 +77,13 @@ claude mcp add --transport http proveitonchain https://proveitonchain.com/mcp
 | `broadcast` | Relay your signed PSBT or raw tx. Checked against the composed tx and exact fee first. |
 | `get_proof_status` | awaiting_signature / expired / pending / confirmed. Read-only. |
 | `verify` | Any asset on Bitcoin: facts, proof checks, certificate URL, agent identity. Read-only. |
+| `create_challenge` | Free. Single-use message for the holder of a name to sign (10 minutes). |
+| `verify_challenge` | Free. Checks that signature against the address holding the name right now. |
+| `products` | Free. Both products and which tools belong to each. Read-only. |
+| `tokenlock_info` | Free. TOKENLOCK: what it is, plans and prices, install snippets (npm, Express, Cloudflare, PHP), how agents use it, links. Read-only. |
+| `check_token_access` | Free. Does a Bitcoin address hold a token or name right now (owner or balance)? Read-only, no signature. |
+| `start_token_signin` | Free. Start a "Sign in with your Token" for a TOKENLOCK site (its `pk_…` site key + origin) or a general pass → message to sign. |
+| `finish_token_signin` | Free. Send your wallet's signature → a short-lived pass the gated site checks. |
 
 ## Verify an agent
 
@@ -101,6 +118,35 @@ Badge, green only while the profile is signed by the current owner:
 
 Anyone checks it with `verify_agent`. A verified name proves which Bitcoin address controls the name and signed the profile, and when. It does not prove legal identity, or that an agent or its operator is human or trustworthy. Example: [proveitonchain.com/.well-known/agent.json](https://proveitonchain.com/.well-known/agent.json).
 
+## TOKENLOCK: zero-trust access for the token era
+
+[TOKENLOCK](https://proveitonchain.com/tokenlock) is a self-serve token gate. Your content stays on your own server. Visitors, people or agents, click **Sign in with your Token** and sign a one-time message in their wallet (nothing is paid or sent); Prove It Onchain does the token check and issues a short-lived pass that your server checks with your secret key.
+
+**For agents, two ways:**
+
+1. **Gate your own API, endpoints or members area** so only holders of your Bitcoin token or name get in. Create a site in the [dashboard](https://proveitonchain.com/tokenlock/dashboard) (pick the tokens that unlock it; you get a `pk_…` publishable key and an `sk_…` secret key), then check every pass server-side:
+
+   ```js
+   import { verifyPass } from '@proveitonchain/tokenlock';
+   const v = await verifyPass(pass, { secretKey: process.env.TOKENLOCK_SECRET_KEY });
+   if (!v.valid) return res.status(401).end();
+   ```
+
+2. **Sign in to gated sites with your own Bitcoin name.** Buy a name with `buy_name`, sign its profile with `set_agent_profile` (so others can `verify_agent` you), then `check_token_access` → `start_token_signin` (site key + origin) → sign the message with your own wallet → `finish_token_signin` → pass. Hand the pass to the site (sites using the npm package or Cloudflare template take it at `POST /api/tokenlock/session`). Your agent needs to be able to sign a Bitcoin message (BIP-322 or legacy sign-message) for the address that holds the name; this server never signs for you.
+
+**Integrations:** [npm `@proveitonchain/tokenlock`](https://www.npmjs.com/package/@proveitonchain/tokenlock) (Next.js middleware, Express middleware, React button, any Node server), a [Cloudflare Worker template](https://github.com/pappyg45/proveitonchain-tokenlock/tree/main/examples/cloudflare-worker), and a [PHP drop-in](https://proveitonchain.com/tokenlock/tokenlock-php.zip) for shared hosting:
+
+```php
+<?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/tokenlock/tokenlock.php';
+tokenlock_require();
+?>
+```
+
+**Plans** (paid in BTC): Free (1 site, 100 sign-ins a month) · Pro $99/month or $990/year (3 sites, 1,000 sign-ins) · Business $299/month (10 sites, 3,000 sign-ins, webhooks) · Enterprise custom. Extra sign-ins about $10 per 1,000; going over never breaks your site.
+
+Docs: https://proveitonchain.com/docs#tokenlock · Live demo: https://proveitonchain.com/vault
+
 ## Name flow
 
 1. `check_name` → available, price.
@@ -125,11 +171,12 @@ Anyone checks it with `verify_agent`. A verified name proves which Bitcoin addre
 Every product is a flat service fee plus the Bitcoin network fee on top (network fee rate is at least 5 sat/vB):
 
 - Vanity name: $21 + network fee
-- Proof: $2 + network fee
-- Proof of Publication: $2 + network fee
-- Ownership Token: $5 + network fee
-- Certificate of Provenance (art and collectibles): $5 + network fee
-- Verifying an agent or a proof: free
+- Proof: $1 + network fee
+- Proof of Publication: $1 + network fee
+- Ownership Token: $1 + network fee
+- Certificate of Provenance (art and collectibles): $1 + network fee
+- Verifying an agent or a proof, challenges, token checks and token sign-ins: free
+- TOKENLOCK: free plan, paid plans in BTC (see above)
 
 `check_name` and `get_quote` return the live amounts in sats.
 

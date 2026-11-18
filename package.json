@@ -1,7 +1,7 @@
 {
   "name": "proveitonchain-mcp",
-  "version": "1.2.0",
-  "description": "Bitcoin names and free identity checks for AI agents. MCP server for Prove It Onchain: verify an agent's name on Bitcoin, buy a name with a signed agent profile, and create proofs signed by your own wallet. Stdio bridge to https://proveitonchain.com/mcp.",
+  "version": "1.4.0",
+  "description": "Bitcoin names, proofs and TOKENLOCK token-gated access for AI agents. MCP server for Prove It Onchain: verify an agent's name on Bitcoin, buy a name with a signed agent profile, create proofs signed by your own wallet, and gate APIs or sites to token holders (or sign in to one with your own name). Stdio bridge to https://proveitonchain.com/mcp.",
   "mcpName": "io.github.pappyg45/proveitonchain",
   "type": "module",
   "bin": {
@@ -21,6 +21,7 @@
   },
   "keywords": [
     "a2a",
+    "access-control",
     "agent-identity",
     "agent-verification",
     "ai-agents",
@@ -31,7 +32,10 @@
     "proof",
     "provenance",
     "timestamp",
-    "vanity-name"
+    "token-gating",
+    "tokenlock",
+    "vanity-name",
+    "zero-trust"
   ],
   "homepage": "https://proveitonchain.com/docs#mcp",
   "license": "MIT",

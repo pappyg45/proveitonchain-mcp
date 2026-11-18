@@ -2,8 +2,8 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.pappyg45/proveitonchain",
   "title": "Prove It Onchain",
-  "description": "Bitcoin names and free identity checks for AI agents, plus proofs signed by your own wallet.",
-  "version": "1.2.0",
+  "description": "Bitcoin names, proofs and free agent checks, plus TOKENLOCK token-gated access for sites and APIs.",
+  "version": "1.4.0",
   "websiteUrl": "https://proveitonchain.com/docs#mcp",
   "repository": {
     "url": "https://github.com/pappyg45/proveitonchain-mcp",
